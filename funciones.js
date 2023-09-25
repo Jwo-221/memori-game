@@ -1,62 +1,38 @@
-
-
-
-const tarjetas = [
-    {id: 1, img: 'imagen1.jpg'},
-    {id: 2, img: 'imagen2.jpg'},
-    {id: 3, img: 'imagen3.jpg'},
-    {id: 4, img: 'imagen4.jpg'},
-    {id: 5, img: 'imagen5.jpg'},
-    {id: 6, img: 'imagen6.jpg'},
-    {id: 7, img: 'imagen7.jpg'},
-    {id: 8, img: 'imagen8.jpg'},
-    {id: 9, img: 'imagen9.jpg'},
-    {id: 10, img: 'imagen10.jpg'},
-    {id: 11, img: 'imagen11.jpg'},
-    {id: 12, img: 'imagen12.jpg'},
-
-    {id: 13, img: 'imagen1.jpg'},
-    {id: 14, img: 'imagen2.jpg'},
-    {id: 15, img: 'imagen3.jpg'},
-    {id: 16, img: 'imagen4.jpg'},
-    {id: 17, img: 'imagen5.jpg'},
-    {id: 18, img: 'imagen6.jpg'},
-    {id: 19, img: 'imagen7.jpg'},
-    {id: 20, img: 'imagen8.jpg'},
-    {id: 21, img: 'imagen9.jpg'},
-    {id: 22, img: 'imagen10.jpg'},
-    {id: 23, img: 'imagen11.jpg'},
-    {id: 24, img: 'imagen12.jpg'}
+const imagenes = [
+    {id: 1, img: '../imagenes/imagen1.jpg'},
+    {id: 2, img: '../imagenes/imagen2.jpg'},
+    {id: 3, img: '../imagenes/imagen3.jpg'},
+    {id: 4, img: '../imagenes/imagen4.jpg'},
+    {id: 5, img: '../imagenes/imagen5.jpg'},
+    {id: 6, img: '../imagenes/imagen6.jpg'},
+    {id: 7, img: '../imagenes/imagen7.jpg'},
+    {id: 8, img: '../imagenes/imagen8.jpg'},
+    {id: 9, img: '../imagenes/imagen9.jpg'},
+    {id: 10, img: '../imagenes/imagen10.jpg'},
+    {id: 11, img: '../imagenes/imagen11.jpg'},
+    {id: 12, img: '../imagenes/imagen12.jpg'},
 ];
 
-const dificultad = 'prompt'
-let numTarjetas = 0;
+function seleccionarCartas(imagenes, cantidad){
+    const copiaImagenes = [...imagenes];
 
-function crearTarjetas(dificultad){
+    const imagenesSeleccionadas= [];
 
-    switch(dificultad){
-        case 'facil':
-            numTarjetas = 8;
-            break;
-        case 'media':
-            numTarjetas = 16;
-            break;
-        case 'dificil':
-            numTarjetas = 24;
-        default:
-            console.error('no se encontro la dificultad');
-            return;
-        };
+    while(imagenesSeleccionadas.length < cantidad && copiaImagenes.length > 0){
+        const indiceAleatorio = Math.floor(Math.random() * copiaImagenes.length);
+
+        imagenesSeleccionadas.push(copiaImagenes[indiceAleatorio]);
+
+        copiaImagenes.splice(indiceAleatorio, 1);
+
+        
+    };
+    
+    return imagenesSeleccionadas;
 }
 
-const imagenes = [];
-for (let i = 1; i <= numTarjetas / 2; i++){
-    imagenes.push(`imagen${i}.jpg`);
-    imagenes.push(`imagen${i}.jpg`);
-}
-
-function barajarArray(array){
-    const newArray = [...array];
+function barajarArray(imagenesSeleccionadas){
+    const newArray = [...imagenesSeleccionadas, ...imagenesSeleccionadas];
     let currentIndex = newArray.length, randomIndex, tempValue;
 
     while (currentIndex!== 0){
@@ -68,9 +44,26 @@ function barajarArray(array){
     newArray[randomIndex] = tempValue;
     }
     return newArray
-}
+};
 
-const tarjetasBarajadas = barajarArray(imagenes);
+function crearTarjetas(){
+    let cantidad = parseInt(localStorage.getItem('numTarjetas'));
+    const contenedorTarjetas = document.getElementById('contenedor-tarjetas');
+    let tarjetasSeleccionadas  = seleccionarCartas(imagenes, cantidad);
+    const tarjetasBarajadas = barajarArray(tarjetasSeleccionadas);
+
+
+        tarjetasBarajadas.forEach((imagen, index)=>{
+            const tarjeta = document.createElement('img');
+            tarjeta.classList.add('tarjeta');
+            tarjeta.dataset.id = imagen.id;
+            tarjeta.dataset.img = imagen.img;
+            tarjeta.src = `${imagen.img}`
+
+            contenedorTarjetas.appendChild(tarjeta)
+        });
+        
+};
 
 
 
@@ -85,45 +78,45 @@ function atras(){
 function redireccion(){
     window.location.href = '../pages/inicio.html';
 }
+
 function facil(){
+    localStorage.setItem('numTarjetas', 4);
     redireccion();
-    /*aqui debe estar la funcion para crear las tarjetas*/
-
+    ;
 }
-
 function media(){
+    localStorage.setItem('numTarjetas', 8)
     redireccion();
-    // mismo que facil
 }
-
 function dificil(){
+    localStorage.setItem('numTarjetas', 12)
     redireccion();
 }
 
 
-/*CARGAMOS LAS FUNCIONES PARA QUE ESTEN DISPONIBLES*/ 
-
-//FUNCIONES DE INDEX
-document.addEventListener('DOMContentLoaded', function() {
-    const botonInicio = document.querySelector('.boton-inicio');
-    botonInicio.addEventListener('click', comenzar);
-   
-})
-
-//FUNCIONES DE DIFICULTAD
 document.addEventListener('DOMContentLoaded',function(){
-    const botonAtras = document.querySelector('.boton-atras');
-    botonAtras.addEventListener('click', atras);
+    const pagina = document.querySelector('body');
+
+    if(pagina.classList.contains('pagina-principal')){
+        const botonInicio = document.querySelector('.boton-inicio');
+        botonInicio.addEventListener('click', comenzar);
+    }
+    if(pagina.classList.contains('pagina-dificultad')){
+        
+        const botonFacil = document.querySelector('#facil');
+        const botonMedia = document.querySelector('#media');
+        const botonDificil = document.querySelector('#dificil');
+        const botonAtras = document.querySelector('.boton-atras');
+
+        botonFacil.addEventListener('click', facil);
+        botonMedia.addEventListener('click', media);
+        botonDificil.addEventListener('click', dificil);
+        botonAtras.addEventListener('click', atras);
+        
+    }
+    if(pagina.classList.contains('pagina-inicio')){
+        crearTarjetas();
+
+
+    }
 })
-
-//FUNCIONES DEL INICIO
-document.addEventListener('DOMContentLoaded', function(){
-    const botonFacil = document.querySelector('#facil');
-    const botonMedia = document.querySelector('#media');
-    const botonDificil = document.querySelector('#dificil');
-
-    botonFacil.addEventListener('click', facil);
-    botonMedia.addEventListener('click', media);
-    botonDificil.addEventListener('click', dificil);
-})
-

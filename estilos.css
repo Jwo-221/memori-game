@@ -1,6 +1,5 @@
 *{
     margin: 0;
-    
 }
                         /* PAGINA DE INICIO*/
 
@@ -84,4 +83,28 @@ button:hover{
 .contenedor-total{
     background-color: rgb(28, 8, 117) ;
     height: 100vh;
+}
+
+.tarjeta{
+    width: 160px;
+    height: 130px;
+    margin: 10px;
+    border: 2px solid transparent;
+}
+
+#contenedor-tarjetas{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+    
+}
+
+.tarjeta:hover{
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.1);
+    border: 2px solid red
 }
