@@ -13,6 +13,7 @@ const imagenes = [
     {id: 12, img: '../imagenes/imagen12.jpg'},
 ];
 
+
 function seleccionarCartas(imagenes, cantidad){
     const copiaImagenes = [...imagenes];
 
@@ -66,6 +67,73 @@ function crearTarjetas(){
 };
 
 
+function contador(){
+    const contadorIntentos = document.getElementById('intentos');
+    const contadorAciertos = document.getElementById('aciertos');
+    const cartasClic = document.querySelectorAll('.tarjeta');
+    let intentosTotales = 0;
+    let click = 0;
+    let aciertos = 0;
+    let cartasSeleccionadas = [];
+
+    contadorIntentos.innerHTML = 'aun no iniciamos';
+    contadorAciertos.innerHTML = 'aun no iniciamos';
+
+    function actualizarContadores(){
+        contadorIntentos.innerHTML = intentosTotales
+        contadorAciertos.innerHTML = aciertos;
+    };
+
+    function verificarAciertos(){
+        if(cartasSeleccionadas.length === 2){
+            if(cartasSeleccionadas[0].dataset.id === cartasSeleccionadas[1].dataset.id){
+                aciertos++;
+                
+            }else{
+                
+            }
+
+            cartasSeleccionadas = [];
+            actualizarContadores();
+        }
+    }
+
+    function voltearCarta(tarjeta){
+        tarjeta.classList.toggle('boca-abajo');
+    
+    }
+
+
+    function intentos(){
+        click++;
+        cartasSeleccionadas.push(this);
+        voltearCarta(this)
+        if( click === 2 ){
+            intentosTotales++;
+            click = 0;
+            actualizarContadores();
+            verificarAciertos();
+            
+
+        } else{
+            
+        }
+        
+        
+    }
+
+    cartasClic.forEach((carta)=>{
+        carta.addEventListener('click', intentos);
+
+    });
+};
+
+    
+    
+
+    
+
+//FUNCIONES DE REDIRECCION
 
 function comenzar(){
     window.location.href = './pages/dificultad.html';
@@ -94,6 +162,10 @@ function dificil(){
 }
 
 
+
+
+//RENDERIZACION DEL INICIO DE JUEGO
+
 document.addEventListener('DOMContentLoaded',function(){
     const pagina = document.querySelector('body');
 
@@ -116,7 +188,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     if(pagina.classList.contains('pagina-inicio')){
         crearTarjetas();
-
-
+        contador();
+    
     }
 })
