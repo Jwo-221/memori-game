@@ -1,8 +1,7 @@
 *{
     margin: 0;
 }
-                        /* PAGINA DE INICIO*/
-
+                   /* PAGINA DE INICIO*/
 
 .contenedor-principal{ 
     display: flex;
@@ -60,7 +59,7 @@ button:hover{
     display: flex;
     flex-direction: column; 
     justify-content: center;
-    height: 90vh;
+    height: 100vh;
     align-items: center;
     background-color: rgb(28, 8, 117);
 }
@@ -81,10 +80,11 @@ button:hover{
 }
 
 .contenedor-total{
-    background-color: rgb(28, 8, 117) ;
     height: 100vh;
 }
 
+
+            /*TARJETAS EN INICIO*/
 .tarjeta{
     width: 160px;
     height: 130px;
@@ -99,20 +99,35 @@ button:hover{
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: rgb(59, 138, 13);
+    background-color: rgb(47, 13, 141);
     width: calc(100% - 15%);
+    
     
 }
 
-.tarjeta.boca-abajo:hover{
-    transition: transform 0.3s ease-in-out;
-    transform: scale(1.15);
-    border: 2px solid red
+.tarjeta{
+    width: 160px;
+    height: 130px;
+    margin: 10px;
+    border: 2px solid transparent;
 }
+
+.boca-abajo{
+    display: block;
+    width: 160px;
+    height: 130px;
+    border: 2px solid transparent;
+
+}
+
+.boca-arriba{
+    display: none;
+   
+}
+
 .tarjeta:hover{
     transition: transform 0.3s ease-in-out;
-    transform: scale(1.15);
-    border: 2px solid red
+    transform: scale(1.12);
 }
 
 .tabla-puntuacion{
@@ -127,10 +142,18 @@ button:hover{
     
 }
 
-.tarjeta.boca-abajo{
+.boca-abajo.oculta{
+    display: none;
     width: 160px;
     height: 130px;
     margin: 10px;
-    border: 2px solid transparent;
 }
+
+.boca-arriba.visible{
+    display: block;
+    width: 160px;
+    height: 130px;
+    border: 2px solid yellow;
+}
+
 

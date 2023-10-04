@@ -11,7 +11,10 @@ const imagenes = [
     {id: 10, img: '../imagenes/imagen10.jpg'},
     {id: 11, img: '../imagenes/imagen11.jpg'},
     {id: 12, img: '../imagenes/imagen12.jpg'},
+
 ];
+
+const imagenNegra = '../imagenes/img-negra/imagen-negra.jpg'
 
 
 function seleccionarCartas(imagenes, cantidad){
@@ -55,11 +58,21 @@ function crearTarjetas(){
 
 
         tarjetasBarajadas.forEach((imagen, index)=>{
-            const tarjeta = document.createElement('img');
+            const tarjeta = document.createElement('div');
             tarjeta.classList.add('tarjeta');
             tarjeta.dataset.id = imagen.id;
             tarjeta.dataset.img = imagen.img;
-            tarjeta.src = `${imagen.img}`
+
+            const imagenBocaAbajo = document.createElement('img');
+            imagenBocaAbajo.classList.add('boca-abajo');
+            imagenBocaAbajo.src = `${imagenNegra}`;
+
+            const imagenBocaArriba = document.createElement('img');
+            imagenBocaArriba.classList.add('boca-arriba');
+            imagenBocaArriba.src = imagen.img
+
+            tarjeta.appendChild(imagenBocaAbajo);
+            tarjeta.appendChild(imagenBocaArriba)
 
             contenedorTarjetas.appendChild(tarjeta)
         });
@@ -89,41 +102,31 @@ function contador(){
             if(cartasSeleccionadas[0].dataset.id === cartasSeleccionadas[1].dataset.id){
                 aciertos++;
                 
-            }else{
-                
-            }
+            }else{}
 
             cartasSeleccionadas = [];
             actualizarContadores();
         }
     }
 
-    function voltearCarta(tarjeta){
-        tarjeta.classList.toggle('boca-abajo');
-    
-    }
-
-
     function intentos(){
         click++;
         cartasSeleccionadas.push(this);
-        voltearCarta(this)
         if( click === 2 ){
             intentosTotales++;
             click = 0;
             actualizarContadores();
             verificarAciertos();
-            
-
-        } else{
-            
-        }
-        
-        
+        } else{};
     }
 
+
     cartasClic.forEach((carta)=>{
-        carta.addEventListener('click', intentos);
+        carta.addEventListener('click', intentos)
+        carta.addEventListener('click', function(){
+            this.querySelector('.boca-abajo').classList.toggle('oculta');
+            this.querySelector('.boca-arriba').classList.toggle('visible');
+        });
 
     });
 };
@@ -159,6 +162,19 @@ function media(){
 function dificil(){
     localStorage.setItem('numTarjetas', 12)
     redireccion();
+    
+}
+
+function botonFullScreem(){
+    const elemento = document.documentElement;
+        if (elemento.requestFullscreen) {
+            elemento.requestFullscreen();
+          } else if (elemento.mozRequestFullScreen) {
+            elemento.mozRequestFullScreen(); // Firefox
+          } else if (elemento.webkitRequestFullscreen) {
+            elemento.webkitRequestFullscreen(); // Chrome, Safari y Opera
+          } else if (elemento.msRequestFullscreen) {
+            elemento.msRequestFullscreen()};
 }
 
 
